@@ -1,0 +1,286 @@
+.header-block {
+   display: flex;
+   align-items: center;
+   width: 1440px;
+   height: 65px;
+   top: 18px;
+   left: -996px;
+   gap: 210px;
+}
+.header-img1{
+
+}
+.mrlt{
+   margin-left: 12px;
+}
+
+.mrl-48{
+   margin-left: 48px;
+   display: flex;
+   align-items: center;
+
+}
+
+.gap-50{
+   display: flex;
+   align-items: center;
+   gap:50px ;
+   width:405px ;
+   height:19px ;
+}
+
+
+
+.mrl-36{
+   margin-left: 36px;
+   display: flex;
+   align-items: center;
+}
+a{text-decoration: none; color: black;}
+.search-box{
+    width: 352px;
+   height: 41px;
+   border: 1px solid #DFDFDF;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   border-radius: 8px;
+}
+
+.search {
+   border: none;
+}
+
+.search1 {
+   width: 500px;
+   height: 44px;
+   border: 1px;
+   padding: 12px;
+   background-color: #111928;
+   border: 1px;
+}
+
+.login-sign-up {
+   color: aliceblue;
+   background-color: black;
+   text-align: center;
+   height: 41px;
+   width: 121px;
+   display: flex;
+   border-radius: 8px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap:10px;
+   border-radius: 8px;
+}
+
+.high-buttons{
+   gap: 40px;
+   color: aqua;
+   display: flex;
+   align-items: center;
+   width: 501px;
+   height: 41px;
+}
+
+.high-buttons1{
+   gap: 32px;
+   color: aqua;
+   display: flex;
+   align-items: center;
+   width: 497px;
+   height: 40px;
+   margin-left: 48px;
+}
+
+.header-block3 {
+   display: flex;
+   gap: 120px;
+   align-items: center;
+   margin-left: 40px;
+}
+
+header {
+   background-color: #fff;
+   margin-bottom: 22px;
+   display: flex;
+   align-items: center;
+   border-bottom: 1.5px solid #EEF0F3;
+
+}
+
+body {
+   font-family: sans-serif;
+   margin: 0;
+   padding: 0;
+   background-color: #f9f9f9;
+
+
+}
+
+.login-sign-up-1 {
+   color: aliceblue;
+   background-color: #5C53E9;
+   height: 40px;
+   width: 66px;
+   border:none ;
+}
+
+.header-block-1 {
+   display: flex;
+   align-items: center;
+   width: 1440px;
+   height: 80px;
+   top: 118px;
+   bottom: 20px;
+   gap: 685px;
+   left:-996px ;
+
+}
+
+.header-block-2 {
+   display: flex;
+   align-items: center;
+   width:1440px ;
+   height:80px ;
+   left:-994px ;
+   gap:408.15px ;
+   top:233px ;
+   border-radius:10px; ;
+}
+
+.header-background {
+   background-color: #111928;
+}
+
+.hw {
+   width: 654.3px;
+   height: 19px;
+}
+.gap40-1{display: flex;
+align-items: center;
+gap: 40px;}
+
+.gap-48{
+   gap: 48px;
+   display: flex;
+   align-items: center;
+}
+
+
+.logos{
+   display: flex;
+   align-items: center;
+   width:162px ;
+   height:40px ;
+   gap:8px ;
+}
+
+.high-buttons2{
+   display: flex;
+   align-items: center;
+}
+
+.text{
+   display: flex;
+   align-items: center;
+   gap: 40px;
+   color: #FFFFFF;
+   width:405px ;
+   height: 19px;
+}
+
+
+.header-block-1-1{
+   display: flex;
+   align-items: center;
+   width: 1440px;
+   height: 80px;
+   top: 348px;
+   left:-993px ;
+   border-radius: 10px;
+   gap: 663px;
+   margin-left: 36px;
+   color: #FFFFFF;
+}
+
+
+.header-block-1-2{
+   display: flex;
+   align-items: center;
+   width: 1440px;
+   height: 80px;
+   top: 463px;
+   left:-993px ;
+   border-radius: 10px;
+   gap: 50px;
+   margin-left: 36px;
+   color: #FFFFFF;
+}
+
+.search-type{
+   width:500px ;
+   height:44px ;
+   display: flex;
+   align-items: center;
+   background-color: #111928;
+   gap: 384px;
+   margin-left:20px ;
+   border-radius:10px ;
+   border: 1px solid #DFDFDF;
+}
+
+.borders{
+   display: flex;
+   align-items:   center;
+   width:654.3px ;
+   height:19px ;
+
+}
+
+
+.w-405-h-19{
+   display: flex;
+   align-items: center;
+   width:405px ;
+   height:19px ;
+   margin-left:249.3px ;
+   gap: 40px;
+}
+
+
+.text-s{
+   display: flex;
+   align-items: center;
+   gap: 40px;
+   color: #FFFFFF;
+}
+
+
+
+.search-box-upgr{
+    width: 352px;
+   height: 41px;
+   border: 1px solid #DFDFDF;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   border-radius: 8px;
+}
+
+.search-type-search{
+   display: flex;
+   align-items: center;
+   background-color: #111928;
+   margin-left:20px ;
+   border:none ;
+   width:62px ;
+   height:19px ;
+}
+
+.mrscb{
+   display: flex;
+   align-items: center;
+   margin-right: 10px;
+}
