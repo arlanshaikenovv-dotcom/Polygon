@@ -125,6 +125,7 @@ body {
    height: 40px;
    width: 66px;
    border:none ;
+   border-radius:8px ;
 }
 
 .header-block-1 {
@@ -283,4 +284,19 @@ gap: 40px;}
    display: flex;
    align-items: center;
    margin-right: 10px;
+}
+
+.blue-button-2-line{
+   display: flex;
+   align-items: center;
+   width:40px ;
+   height:40px ;
+   left: 48px;
+}
+
+
+.gap-32{
+   display: flex;
+   align-items: center;
+   gap: 32px;
 }
