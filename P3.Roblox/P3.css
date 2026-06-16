@@ -1,0 +1,193 @@
+body{
+    font-family:Arial, Helvetica, sans-serif ;
+}
+.Hero-Section{
+    width:1200px ;
+    height:248px ;
+    display:flex ;
+    border-radius:12px ;
+    border:1px ;
+    background-color: #2A2A2A;
+    gap: 19.32px;
+    align-items: center;
+}
+.Roblox-Player-Picture .Hero-Section{}
+
+.Roblox-Player-Picture{
+    width:185.36px ;
+    height:185.36px ;
+    display:flex ;
+    left:19.32px ;
+    top:30.32px ;
+}
+
+.Place-Description{
+    width:942px ;
+    height:178px ;
+    display:Block ;
+    gap:8px ;
+}
+
+
+.Greeting{
+    width:942px ;
+    height:56px ;
+    display: flex;
+    color: #E5E2E1;
+    font-size:48px ;
+    line-height:56px ;
+    letter-spacing:-0.96px ;
+}
+
+.Brookhaven-Add{
+    width:576px ;
+    height:52px ;
+    display:flex ;
+    color:#E7BDB7 ;
+    margin-top:8px ;
+}
+
+
+.Place-Online{
+    width:942px ;
+    height:54px ;
+    display:flex ;
+    color:#E5E2E1 ;
+    gap:16px ;
+}
+
+.Button-Border{
+    width: 176.52px; ;
+    height:38px ;
+    display: flex;
+    border-radius:8px ;
+    border:1px  solid #5D3F3B ;
+    align-items: center;
+    left:16px ;
+    gap: 8px;
+}
+
+
+.ifo{
+    margin-left:16px ;
+}
+
+.Raining-City{
+    width:256px ;
+    height:223px ;
+    display: block;
+    background-color:#000000 ;
+}
+
+
+.usmth{
+    margin-top:10px ;
+    margin-left:10px ;
+}
+
+
+.Place-Name{
+    width:236px ;
+    height:36px ;
+    margin-top:4px ;
+    color: #E5E2E1;
+    margin-left:10px ;
+    font-size:20px ;
+    display: flex;
+    align-items: end;
+}
+
+.Percents{
+    width:236px ;
+    height:16px ;
+    margin-left:10px ;
+    margin-top:4px ;
+    color: #E7BDB7;
+    font-size:16px ;
+}
+
+.Block-Sides{
+    display:flex ;
+    gap:57px;
+    margin-top:85px ;
+}
+
+
+
+.Night-City{
+    width:286px ;
+    height:361px ;
+    display:block ;
+    background-color: #000000;
+    color: #E7BDB7;
+    border-radius:12px ;
+    border: 1px solid #5D3F3B;
+}
+
+.Night-City-Description{
+    width:286px ;
+    height:75px ;
+    display:flex ;
+    color: #E5E2E1;
+    background-color: #000000;
+}
+
+.Text-Settings{
+    margin-left:16px ;
+    margin-top:16px ;
+}
+
+.Place-Stats{
+    display: flex;
+    gap:169.77px;
+    width:254px ;
+    height:15px ;
+    color: #E7BDB7; 
+    margin-top:8px ;
+}
+
+
+
+.Colors{
+    background-color: #000000;
+    color: #E5E2E1;
+}
+
+.Margin-Like{
+    margin-left:16px ;
+    display: flex;
+    color: #E7BDB7;
+
+}
+.Gap-4-Gap{
+    gap:4px ;
+}
+
+.Combined-Settings{
+     margin-left:16px ;
+    margin-top:16px ;
+    background-color: #000000;
+    color: #E5E2E1;
+    width:254px ;
+    height:20px ;
+}
+
+.Flex{
+    display: flex;
+    margin-left:16px ;
+    margin-top:8px ;
+    align-items: center;
+    width:254px ;
+    height:15px ;
+    gap: 169px; ;
+    font-size:10px ;
+}
+
+.flex-1{
+    gap:4px ;
+}
+
+.Image-Radius{
+ border-top-left-radius:12px ;
+ border-top-right-radius:12px ;
+}
