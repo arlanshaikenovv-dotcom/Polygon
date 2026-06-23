@@ -1,9 +1,10 @@
 .Statics{
     width:150px ;
-    height:25px ;
+    height:100px ;
     position: static;
     display: flex;
     justify-content: end;
+    background-color: brown;
 
 }
 
@@ -16,6 +17,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    background-color: bisque;
 }
 .Absolutes{
     width:145px ;
@@ -23,15 +25,17 @@
     position: absolute;
     right:30px ;
     bottom:45px ;
+    background-color: red;
 }
 .Fixeds{
     width:180px ;
     height:120px ;
     position: fixed;
+    background-color: aqua;
 }
 .Sticks{
     width:140px ;
-    height:25px ;
+    height:70px ;
     position: sticky;
     top: 10px;
     background-color: lightblue;
@@ -45,6 +49,7 @@
     gap: 50px;
     width:1340px ;
     height:780px ;
+    background-color: cadetblue;
 }
 
 .Flexy{
@@ -54,4 +59,5 @@
     justify-content: center;
     align-items: center;
     gap:50px ;
+    background-color: blueviolet;
 }
