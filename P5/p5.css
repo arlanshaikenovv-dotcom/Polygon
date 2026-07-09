@@ -1,0 +1,200 @@
+header{
+    background-color: #131313;
+    color:#E5E2E1 ;
+    width:390px ;
+    height:64px ;
+    padding:0 ;
+    margin:0 ;
+    position:relative ;
+}
+body{
+    width:390px ;
+    height:929px ;
+    color:#E5E2E1 ;
+    padding:0 ;
+    margin:0 ;
+    position:relative ;
+    font-family:Arial, Helvetica, sans-serif ;
+}
+.GBIAW{
+    gap:12px ;
+    display:flex ;
+    align-items:center ;
+    width:126px ;
+    height:32px ;
+    left:16px ;
+    bottom:16px ;
+}
+
+.TTLWM{
+    left:16px ;
+}
+
+.GBTI{
+    gap:16px ;
+    display:flex ;
+    align-items:center ;
+    width:96px ;
+    height:40px ;
+    bottom:16px ;
+}
+
+.CB{
+    width:358px ;
+    height:64px ;
+    display:flex ;
+    align-items:center ;
+    gap:136px ;
+    left:16px ;
+    position:relative ;
+}
+
+.IN1{
+    width:40px ;
+    height:40px ;
+    display:flex ;
+    align-items:center ;
+}
+
+.IN2{
+    width:40px ;
+    height:40px ;
+    display:flex ;
+    align-items:center ;
+}
+
+.Greeting{
+    width:390px ;
+    height:104px ;
+    display:block ;
+    gap:4px ;
+    left:16px ;
+    background-color:#131313 ;
+    color:#E5E2E1 ;
+    left:16px ;
+}
+
+.Greeting-Board{
+    width:358px ;
+    height:80px ;
+    background-color:#2A2A2A ;
+    left:16px ;
+    position:relative ;
+    border-left:#E2231A 4px solid ;
+    border-radius:12px ;
+    display:block ;
+    padding-top:24px ;
+}
+
+.Welcoming{
+    width:306px ;
+    height:20px ;
+    /* display:flex ;
+    align-items:center ;
+    left:24px ;
+    top:24px ; */
+    color:#E7BDB7 ;
+    /* position:relative ; */
+    font-size:14px ;
+    margin:0px  24px 4px 24px; 
+}
+
+.Hello-To-Player{
+    width:306px ;
+    height:32px ;
+    /* display:flex ;
+    align-items:center ;
+    left:24px ;
+    top:4px ; */
+    font-size:24px ;
+    /* position:relative ; */
+    margin-left:24px ;
+}
+
+.Place-Menu-Of-Continuing-Playing{
+    width:390px ;
+    height:240px ;
+    display:block ;
+    position:relative ;
+    background-color:#131313 ;
+    color:#E5E2E1 ;
+}
+
+.Continue-Playing{
+    width:358px ;
+    height:28px ;
+    gap:167.26px ;
+    display:flex ;
+    align-items:center ;
+    left:32px ;
+    position:relative ;
+    font-size: 20px ;
+    top:16px ;
+}
+
+.Left{
+    left:16px ;
+    position:relative ;
+}
+
+.Left1{
+    left:4px ;
+    position:relative
+}
+
+.Blox-Fruits-Brookhaven{
+    width:358px ;
+    height:196px ;
+    display:flex ;
+    align-items:center ;
+    gap:16px ;
+    left:16px ;
+    top:16px ;
+    position:relative ;
+}
+
+.Playses{
+    display:block ;
+    align-items:center ;
+    width:358px ;
+    height:443.5px ;
+    gap:16px ;
+    /* left:16px ; */
+    position:relative ;
+}
+
+.Flex{
+    display:flex ;
+    align-items:center ;
+    gap:10px ;
+    padding-left:16px ;
+    justify-content:start ;
+}
+
+.Recommendation-Place-Plays-Menu{
+    width:390px ;
+    height:487.5px ;
+    display:block ;
+    gap:16px ;
+    left:16px ;
+    color:#E5E2E1 ;
+    background-color:#131313 ;
+    padding-top:32px ;
+}
+
+.Recommendations-Place-Plays{
+    display:flex ;
+    align-items:center ;
+    width:358px ;
+    height:28px ;
+    font-size: 20px ;
+    /* position:relative ; */
+    /* left:16px ; */
+    margin: 0px 0px 16px 20px ;
+}
+
+.Game-Stick{
+    position:absolute ;
+    right:0px ;
+    bottom:0px ;
+}
