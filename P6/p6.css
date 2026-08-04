@@ -11,6 +11,8 @@
     width:380px ;
     height:582px ;
     display:block ;
+    border-radius:10px ;
+    border:1px #F2F6FA solid ;
 }
 
 .main-text{

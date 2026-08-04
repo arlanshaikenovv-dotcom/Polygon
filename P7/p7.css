@@ -5,7 +5,7 @@ header {
     background-color: #131313;
     color: #E7BDB7;
     position: relative;
-    align-items:center ;
+    align-items: center;
 }
 
 .RPOTB {
@@ -14,7 +14,7 @@ header {
     display: flex;
     background-color: #131313;
     color: #E7BDB7;
-    position: relative;
+    align-items: center;
 }
 
 .Flex {
@@ -23,24 +23,26 @@ header {
     height: 64px;
 }
 
+/*
 .Roblox {
     display: flex;
     left: 32px;
     top: 12px;
     width: 131.2px;
     height: 40px;
-    position: relative;
+*/
+.Roblox {
+    margin-left: 32px;
 }
 
 .buttons-1 {
     width: 201.7px;
     height: 26px;
-    top: 19px;
     gap: 16px;
     display: flex;
-    position: relative;
     margin-left: 32px;
-    left:32px ;
+    font-size: 14px;
+    font-weight: 600px;
 }
 
 .search {
@@ -51,20 +53,19 @@ header {
     border-radius: 8px;
     background-color: #353534;
     border: 1px solid #5D3F3B;
-    left: 76.49px;
-    margin-left:76.49px ;
-    top: 3px;
+    margin-left: 76.49px;
+    align-items: center;
+}
+
+.Search-left {
+    left: 16px;
     position: relative;
-    align-items:center ;
 }
 
-.Search-left{
-    left:16px ;
-    position:relative ;
-}
-
-.Margin-search{
-    margin-left:11px ;
+.Margin-search {
+    margin-left: 11px;
+    font-size: 16px;
+    font-weight: 400px;
 }
 
 .buttons-2 {
@@ -72,18 +73,15 @@ header {
     width: 186.1px;
     height: 36px;
     gap: 16px;
-    left:76.5px ;
-    top: 14px;
-    position: relative;
-    margin-left:76.5px ;
+    margin-left: 76.5px;
 }
 
-.Hero-Section{
-    width:1200px ;
-    height:248px ;
-    display:flex ;
-    border-radius:12px ;
-    border:1px solid #5D3F3B ;
+.Hero-Section {
+    width: 1200px;
+    height: 248px;
+    display: flex;
+    border-radius: 12px;
+    border: 1px solid #5D3F3B;
     background-color: #2A2A2A;
     gap: 19.32px;
     align-items: center;
@@ -91,184 +89,250 @@ header {
     margin-top: 40px;
 }
 
-.Roblox-Player-Picture{
-    width:185.36px ;
-    height:185.36px ;
-    display:flex ;
-    left:19.32px ;
-    top:30.32px ;
-}
-
-.Place-Description{
-    width:942px ;
-    height:178px ;
-    display:Block ;
-    gap:8px ;
-}
-
-
-.Greeting{
-    width:942px ;
-    height:56px ;
+.Roblox-Player-Picture {
+    width: 185.36px;
+    height: 185.36px;
     display: flex;
-    color: #E5E2E1;
-    font-size:48px ;
-    line-height:56px ;
-    letter-spacing:-0.96px ;
+    left: 19.32px;
+    top: 30.32px;
 }
 
-.Brookhaven-Add{
-    width:576px ;
-    height:52px ;
-    display:flex ;
-    color:#E7BDB7 ;
-    margin-top:8px ;
-}
-
-
-.Place-Online{
-    width:942px ;
-    height:54px ;
-    display:flex ;
-    color:#E5E2E1 ;
-    gap:16px ;
-}
-
-.Button-Border{
-    width: 176.52px; ;
-    height:38px ;
-    display: flex;
-    border-radius:8px ;
-    border:1px  solid #5D3F3B ;
-    align-items: center;
-    left:16px ;
+.Place-Description {
+    width: 942px;
+    height: 178px;
+    display: Block;
     gap: 8px;
 }
 
 
-.ifo{
-    margin-left:16px ;
-}
-
-.Place-grids{
-    width:1200px ;
-    height:204px ;
-    display:grid ;
-    grid-template-rows:repeat(1, 204px) ;
-    grid-template-columns:repeat(4, 256px) ;
-    column-gap:16px ;
-    margin-top:24px ;
-    margin-left:8px ;
-}
-
-.Container-grid{
-    width:1200px ;
-    height:284px ;
-    display:block ;
-    margin-left:40px ;
-    margin-top:48px ;
-}
-
-.Some-buttons{
-    width:1200px ;
-    height:40px ;
-    display:flex ;
-    gap:873.24px ;
-    margin-left:8px ;
-}
-
-.Raining-City{
-    width:256px ;
-    height:204px ;
-    display: block;
-    background-color:#000000 ;
-    background-image:url(Back.jpg) 
-}
-
-
-usmth{
-    margin-top:10px ;
-    margin-left:10px ;
-}
-
-
-.Place-Name{
-    width:256px ;
-    height:28px ;
-    margin-top:8px ;
+.Greeting {
+    width: 942px;
+    height: 56px;
+    display: flex;
     color: #E5E2E1;
-    margin-left:10px ;
-    font-size:20px ;
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.96px;
+}
+
+.Brookhaven-Add {
+    width: 576px;
+    height: 52px;
+    display: flex;
+    color: #E7BDB7;
+    margin-top: 8px;
+}
+
+
+.Place-Online {
+    width: 942px;
+    height: 54px;
+    display: flex;
+    color: #E5E2E1;
+    gap: 16px;
+}
+
+.Button-Border {
+    width: 176.52px;
+    ;
+    height: 38px;
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid #5D3F3B;
+    align-items: center;
+    left: 16px;
+    gap: 8px;
+}
+
+
+.ifo {
+    margin-left: 16px;
+    font-size: 14px;
+    font-weight: 600px;
+}
+
+.Place-grids {
+    width: 1200px;
+    height: 204px;
+    display: grid;
+    grid-template-rows: repeat(1, 204px);
+    grid-template-columns: repeat(4, 256px);
+    column-gap: 16px;
+    margin-top: 24px;
+    margin-left: 8px;
+}
+
+.Container-grid {
+    width: 1200px;
+    height: 284px;
+    display: block;
+    margin-left: 40px;
+    margin-top: 48px;
+}
+
+.Some-buttons {
+    width: 1200px;
+    height: 40px;
+    display: flex;
+    gap: 873.24px;
+    margin-left: 8px;
+}
+
+.Raining-City {
+    width: 256px;
+    height: 204px;
+    display: block;
+    background-color: #000000;
+    background-color: transparent;
+}
+
+
+.usmth {
+    border-radius: 12px;
+}
+
+
+.Place-Name {
+    width: 256px;
+    height: 28px;
+    margin-top: 8px;
+    color: #E5E2E1;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 600px;
     display: flex;
     align-items: end;
 }
 
-.Percents{
-    width:256px ;
-    height:12px ;
-    margin-left:10px ;
-    margin-top:4px ;
+.Percents {
+    width: 256px;
+    height: 12px;
+    margin-left: 10px;
+    margin-top: 4px;
     color: #E7BDB7;
-    font-size:12px ;
+    font-size: 12px;
 }
 
-.Recommendations{
-    width:1200px ;
-    height:428px ;
-    margin-left:40px ;
-    margin-top:48px ;
-    display:block ;
+.Recommendations {
+    width: 1200px;
+    height: 428px;
+    margin-left: 40px;
+    margin-top: 48px;
+    display: block;
 }
 
-.Recommendation-Grid{
-    width:288px ;
-    height:363px ;
-    display:grid ;
-    grid-template-columns:repeat(4, 288px) ;
-    grid-template-rows:repeat(1, 363px) ;
-    column-gap:16px ;
-    margin-top:24px ;
+.Recommendation-Grid {
+    width: 288px;
+    height: 363px;
+    display: grid;
+    grid-template-columns: repeat(4, 288px);
+    grid-template-rows: repeat(1, 363px);
+    column-gap: 16px;
+    margin-top: 24px;
 }
 
-.Recommendations-place{
-    width:288px ;
-    height:363px ;
-    color:#E5E2E1 ;
-    background-color:#201F1F ;
-    border:1px solid #5D3F3B ;
-    border-radius:12px ;
+.Recommendations-place {
+    width: 288px;
+    height: 363px;
+    color: #E5E2E1;
+    background-color: #201F1F;
+    border: 1px solid #5D3F3B;
+    border-radius: 12px;
 }
 
-body{
-    background-image:url(Back.jpg) ;
-    color:#E5E2E1 ;
+body {
+    background-image: url(Back.jpg);
+    color: #E5E2E1;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.Recommendations-place-name{
-    color:#E5E2E1 ;
-    width:254px ;
-    height:20px ;
-    margin-top:16px ;
-    margin-left:16px ;
+.Recommendations-place-name {
+    color: #E5E2E1;
+    width: 254px;
+    height: 20px;
+    margin-top: 16px;
+    margin-left: 16px;
 }
 
-.Recommendations-place-rating{
-    display:flex ;
-    width:254px ;
-    height:15px ;
-    justify-content:space-between ;
-    margin-left:16px ;
-    margin-top:8px ;
-    color:#E7BDB7 ;
+.Recommendations-place-rating {
+    display: flex;
+    width: 254px;
+    height: 15px;
+    justify-content: space-between;
+    margin-left: 16px;
+    margin-top: 8px;
+    color: #E7BDB7;
 }
 
-.flex{
-    display:flex ;
-    align-items:center ;
+.flex {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700px;
 }
 
-.flex-1{
-    display:flex ;
-    align-items:center ;
-    gap:2.5px ;
+.flex-1 {
+    display: flex;
+    align-items: center;
+    gap: 2.5px;
+    font-size: 10px;
+    font-weight: 400px;
+}
+
+.Size-Continue-Playing {
+    font-size: 32px;
+    font-weight: 700px;
+}
+
+.Recommendation-intro {
+    font-size: 32px;
+    font-weight: 700px;
+}
+
+.User-Picture {
+    border: 1px solid #5D3F3B;
+    border-radius: 9999px;
+}
+
+.Blue-Button {
+    color: #0066FF;
+}
+
+._ {
+    width: 131.2px;
+    height: 40px;
+}
+
+._-1 {
+    display: none;
+}
+
+@media(max-width: 390px) {
+    .search {
+        display: none;
+    }
+
+    .buttons-1,
+    .buttons-2,
+    .Roblox-Player-Picture,
+    .Place-Online,
+    .Blue-Button,
+    .Brookhaven-Add {
+        display: none;
+    }
+
+    ._ {
+        width: 82px;
+        height: 28px;
+    }
+
+    ._-1 {
+        display: block;
+    }
+
+    .Hero-Section {
+        width:358px ;
+        height:104px ;
+        border-left: 4px solid red ;
+    }
 }
