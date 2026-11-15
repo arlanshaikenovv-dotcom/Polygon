@@ -307,6 +307,30 @@ body {
     display: none;
 }
 
+.Header-left{
+    display:none ;
+}
+
+.Welcoming{
+    display:none ;
+}
+
+.Controller{
+    display:none ;
+}
+
+.Greeting-For-390{
+    display:none ;
+}
+
+.Greeting-1{
+    display:none ;
+}
+
+.TTR{
+    display:none ;
+}
+
 @media(max-width: 390px) {
     .search {
         display: none;
@@ -335,4 +359,88 @@ body {
         height:104px ;
         border-left: 4px solid red ;
     }
+
+    .Header-left{
+        width:96px ;
+        height:40px ;
+        display:flex;
+        gap:16px ;
+    }
+
+    .Welcoming{
+        display:block ;
+        width:306px ;
+        height:20px ;
+        color:#E7BDB7 ;
+        font-weight:600 ;
+        font-size:14px ;
+    }
+
+    .Greeting{
+        display:none ;
+    }
+
+    .Controller{
+        display:flex ;
+        position:absolute ;
+        bottom:0px ;
+        right:0px ;
+    }
+
+    .Greeting-For-390{
+        display:flex ;
+    }
+
+    .Greeting-1 {
+    width: 942px;
+    height: 56px;
+    display: flex;
+    color: #E5E2E1;
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.96px;
+    }
+
+    .TTR{
+        display:flex ;
+    }
+
+    .Place-grids {
+    width: 160px;
+    height: 188px;
+    display: grid;
+    grid-template-rows: repeat(1, 188px);
+    grid-template-columns: repeat(4, 160px);
+    column-gap: 16px;
+    margin-top: 24px;
+    margin-left: 8px;
+    }
+
+    .Raining-City {
+    width:160px ;
+    height:188px ;
+    display: block;
+    background-color: #000000;
+    background-color: transparent;
+}
+
+    .Recommendation-Grid {
+    width: 171px;
+    height: 213.75px;
+    display: grid;
+    grid-template-columns: repeat(2, 171px);
+    grid-template-rows: repeat(2, 213.75px);
+    column-gap: 16px;
+    row-gap:16px ;
+    margin-top: 24px;
+}
+
+    .Recommendations-place {
+    width:171px ;
+    height:213.75px ;
+    color: #E5E2E1;
+    background-color: #201F1F;
+    border: 1px solid #5D3F3B;
+    border-radius: 12px;
+}
 }

@@ -1,0 +1,100 @@
+/* Черный фон космоса на весь экран */
+body {
+  margin: 0;
+  background-color: #050510;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.space {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Солнце в центре */
+.sun {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #fff066, #ff9900, #ff4500);
+  border-radius: 50%;
+  box-shadow: 0 0 50px #ff8800;
+  position: absolute;
+}
+
+/* Общие стили для всех орбит */
+.orbit {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: rotate linear infinite;
+}
+
+/* Общие стили для всех планет */
+.planet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* --- Настройки каждой планеты (размер орбиты и скорость) --- */
+
+/* 1. Меркурий */
+.mercury-orbit { width: 100px; height: 100px; animation-duration: 4s; }
+.mercury { width: 8px; height: 8px; background: #a8a8a8; }
+
+/* 2. Венера */
+.venus-orbit { width: 150px; height: 150px; animation-duration: 7s; }
+.venus { width: 14px; height: 14px; background: #e3bb76; }
+
+/* 3. Земля */
+.earth-orbit { width: 210px; height: 210px; animation-duration: 10s; }
+.earth { width: 16px; height: 16px; background: #2b82c9; }
+
+/* 4. Марс */
+.mars-orbit { width: 270px; height: 270px; animation-duration: 15s; }
+.mars { width: 12px; height: 12px; background: #c1440e; }
+
+/* 5. Юпитер */
+.jupiter-orbit { width: 370px; height: 370px; animation-duration: 25s; }
+.jupiter { width: 34px; height: 34px; background: #d8ca9d; }
+
+/* 6. Сатурн и его кольцо */
+.saturn-orbit { width: 490px; height: 490px; animation-duration: 35s; }
+.saturn { width: 28px; height: 28px; background: #ead6b8; }
+.saturn-ring {
+  width: 46px;
+  height: 12px;
+  border: 3px solid rgba(210, 180, 140, 0.8);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+}
+
+/* 7. Уран */
+.uranus-orbit { width: 600px; height: 600px; animation-duration: 50s; }
+.uranus { width: 20px; height: 20px; background: #4fd0e7; }
+
+/* 8. Нептун */
+.neptune-orbit { width: 700px; height: 700px; animation-duration: 65s; }
+.neptune { width: 19px; height: 19px; background: #3f54ba; }
+
+/* Единый сценарий вращения на 360 градусов */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

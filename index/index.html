@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junior Astronaut Mission Trainer</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body {
+    background: #050811;
+    color: #fff;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  #menu-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, #0d162c 0%, #03050a 100%);
+    z-index: 10;
+  }
+  .stars-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+      radial-gradient(1px 1px at 90px 40px, #ddd, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 160px 120px, #9cf, rgba(0,0,0,0)),
+      radial-gradient(1.5px 1.5px at 230px 180px, #fc9, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .menu-box {
+    position: relative;
+    background: rgba(12, 46, 62, 0.85);
+    border: 2px solid #1e62d0;
+    border-radius: 32px;
+    padding: 40px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 0 40px rgba(0, 110, 255, 0.35);
+    max-width: 520px;
+    width: 90%;
+  }
+  .menu-title {
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #e0f2fe;
+    text-transform: uppercase;
+  }
+  .menu-subtitle {
+    font-size: 13px;
+    color: #93c5fd;
+    text-align: center;
+    margin-top: -10px;
+  }
+  .planet-btn {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    border: 2px solid #60a5fa;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .planet-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+    background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  }
+  .planet-btn span.tag {
+    font-size: 12px;
+    background: rgba(0,0,0,0.35);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .nasa-btn {
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid #38bdf8;
+    color: #7dd3fc;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .nasa-btn:hover { background: rgba(56, 189, 248, 0.15); }
+  #modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 7, 18, 0.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    padding: 20px;
+  }
+  .modal-card {
+    background: #0f172a;
+    border: 2px solid #3b82f6;
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(59, 130, 246, 0.4);
+  }
+  .modal-card h2 { font-size: 28px; margin-bottom: 12px; }
+  .modal-card p { font-size: 15px; line-height: 1.55; color: #cbd5e1; margin-bottom: 16px; }
+  .nasa-fact-box {
+    background: rgba(30, 58, 138, 0.35);
+    border-left: 4px solid #38bdf8;
+    padding: 14px;
+    text-align: left;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: #e0f2fe;
+    margin-bottom: 22px;
+  }
+  .primary-btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .primary-btn:hover { background: #3b82f6; }
+</style>
+</head>
+<body>
+<div id="menu-screen">
+  <div class="stars-bg"></div>
+  <div class="menu-box">
+    <div class="menu-title">Junior Astronaut<br>Mission Trainer</div>
+    <div class="menu-subtitle">Survive a 5-minute shift inside the planetary habitat dome</div>
+    <button class="planet-btn" onclick="startGame('moon')">
+      <span>Play Moon</span>
+      <span class="tag">High Radiation</span>
+    </button>
+    <button class="planet-btn" onclick="startGame('mars')">
+      <span>Play Mars</span>
+      <span class="tag">Dust Storms</span>
+    </button>
+    <button class="planet-btn" onclick="startGame('titan')">
+      <span>Play Titan</span>
+      <span class="tag">-179°C Cryo Cold</span>
+    </button>
+    <button class="nasa-btn" onclick="showNasaInfo()">NASA Planetary Data & Controls</button>
+  </div>
+</div>
+
+<div id="modal-overlay">
+  <div class="modal-card" id="modal-content"></div>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+const PLANETS = {
+  moon: {
+    name: 'MOON', skyTop: '#020308', skyBottom: '#0b0f19',
+    groundTop: '#7a7f87', groundBottom: '#4b5057', stars: true,
+    gravity: '1.62 m/s²', temp: '-130°C to +120°C', atmo: 'None (Vacuum)',
+    hazardName: 'SOLAR RADIATION FLARE',
+    powerDrain: 100 / 150,
+    o2Drain: 100 / 120,
+    shieldDrain: 100 / 90,
+    fact: 'NASA Data: Because the Moon has no atmosphere or global magnetic field, astronauts face intense cosmic and solar radiation, requiring heavy shielding.'
+  },
+  mars: {
+    name: 'MARS', skyTop: '#d97742', skyBottom: '#f2b880',
+    groundTop: '#b84a27', groundBottom: '#7c2d12', stars: false,
+    gravity: '3.72 m/s²', temp: '-65°C avg', atmo: '95% CO₂',
+    hazardName: 'GLOBAL DUST STORM',
+    powerDrain: 100 / 140,
+    o2Drain: 100 / 120,
+    shieldDrain: 100 / 95,
+    fact: 'NASA Data: Mars experiences planet-wide dust storms that block sunlight for weeks, drastically reducing solar power generation on surface bases.'
+  },
+  titan: {
+    name: 'TITAN', skyTop: '#9a6b26', skyBottom: '#d9a043',
+    groundTop: '#85581d', groundBottom: '#52340e', stars: false,
+    gravity: '1.35 m/s²', temp: '-179°C', atmo: 'Nitrogen & Methane',
+    hazardName: 'CRYO METHANE SQUALL',
+    powerDrain: 100 / 145,
+    o2Drain: 100 / 120,
+    shieldDrain: 100 / 85,
+    fact: 'NASA Dragonfly Data: Titan has a dense nitrogen-methane atmosphere and surface temperatures around -179°C, requiring continuous thermal heating.'
+  }
+};
+
+const SEEDS = [
+  { id: 0, name: 'Space Sprouts', growTime: 5.0, hungerRestore: 15, color: '#4ade80' },
+  { id: 1, name: 'Lunar Potatoes', growTime: 7.5, hungerRestore: 25, color: '#facc15' },
+  { id: 2, name: 'Martian Soybeans', growTime: 15.0, hungerRestore: 40, color: '#fb923c' }
+];
+
+
+let gameState = 'menu';
+let currentPlanet = PLANETS.moon;
+let timeLeft = 300;
+let lastTime = 0;
+let power = 100, oxygen = 100, shield = 100, hunger = 100;
+let hazardActive = false, hazardTimer = 25;
+const DOME_METERS = 25, LADDER_X = 12.5;
+
+const player = {
+  x: 12.5, floor: 1, moveHoldTime: 0, dir: 0, speed: 2.0,
+  stamina: 100, exhausted: false, climbing: null,
+  selectedSeed: 0, foodBag: [], eatHoldTimer: 0
+};
+
+let plots = [
+  { x: 3.0, seed: null, progress: 0, ready: false },
+  { x: 6.0, seed: null, progress: 0, ready: false },
+  { x: 9.0, seed: null, progress: 0, ready: false }
+];
+
+let floatingTexts = [];
+function addFloatingText(text, xMeters, floor, color = '#fff') {
+  floatingTexts.push({ text, xMeters, floor, color, life: 1.5 });
+}
+
+const keys = {};
+window.addEventListener('keydown', (e) => {
+  if (!keys[e.code]) {
+    keys[e.code] = true;
+    if (gameState === 'playing') handleSinglePress(e.code);
+  }
+});
+window.addEventListener('keyup', (e) => {
+  keys[e.code] = false;
+  if (e.code === 'KeyQ') player.eatHoldTimer = 0;
+});
+
+function handleSinglePress(code) {
+  if (player.climbing) return;
+  if (code === 'KeyW' && player.floor === 1) {
+    if (Math.abs(player.x - LADDER_X) <= 1.8) {
+      player.x = LADDER_X;
+      player.climbing = { dir: 'up', progress: 0, duration: 1.0 };
+      player.moveHoldTime = 0;
+    } else addFloatingText('Move to center ladder!', player.x, 1, '#fca5a5');
+  }
+  if (code === 'KeyS' && player.floor === 2) {
+    if (Math.abs(player.x - LADDER_X) <= 1.8) {
+      player.x = LADDER_X;
+      player.climbing = { dir: 'down', progress: 0, duration: 1.5 };
+      player.moveHoldTime = 0;
+    } else addFloatingText('Move to center ladder!', player.x, 2, '#fca5a5');
+  }
+  if (code === 'KeyE') {
+    if (player.floor === 1) {
+      if (player.x <= 3.5) {
+        if (power < 95) {
+          power = Math.min(100, power + 25);
+          oxygen = Math.max(0, oxygen - 4);
+          addFloatingText('+25% Power (-4% O2)', player.x, 1, '#38bdf8');
+        }
+        if (oxygen < 95 && power >= 10) {
+          oxygen = Math.min(100, oxygen + 28);
+          power = Math.max(0, power - 10);
+          addFloatingText('+28% Oxygen (-10% Power)', player.x, 1, '#4ade80');
+        }
+      } else if (player.x >= 21.5) {
+        if (power >= 12) {
+          shield = Math.min(100, shield + 32);
+          power = Math.max(0, power - 12);
+          addFloatingText('+32% Shield (-12% Power)', player.x, 1, '#c084fc');
+        } else addFloatingText('Need 12% Power!', player.x, 1, '#f87171');
+      }
+    } else if (player.floor === 2) {
+      if (player.x >= 16.0) {
+        player.selectedSeed = (player.selectedSeed + 1) % SEEDS.length;
+        const s = SEEDS[player.selectedSeed];
+        addFloatingText(`Selected: ${s.name} (${s.growTime}s)`, player.x, 2, s.color);
+      } else if (player.x <= 10.5) {
+        let nearest = getNearestPlot(player.x);
+        if (nearest && !nearest.seed) {
+          if (power >= 5) {
+            power -= 5;
+            nearest.seed = SEEDS[player.selectedSeed];
+            nearest.progress = 0;
+            nearest.ready = false;
+            addFloatingText(`Planted ${nearest.seed.name}`, nearest.x, 2, nearest.seed.color);
+          } else addFloatingText('Low Power for Grow Lights!', player.x, 2, '#f87171');
+        }
+      }
+    }
+  }
+  if (code === 'KeyQ' && player.floor === 2 && player.x <= 10.5) {
+    let nearest = getNearestPlot(player.x);
+    if (nearest && nearest.ready) {
+      player.foodBag.push({
+        name: nearest.seed.name,
+        hungerRestore: nearest.seed.hungerRestore,
+        color: nearest.seed.color
+      });
+      addFloatingText(`Harvested ${nearest.seed.name}!`, nearest.x, 2, '#fde047');
+      nearest.seed = null;
+      nearest.progress = 0;
+      nearest.ready = false;
+    }
+  }
+}
+function getNearestPlot(px) {
+  let best = null, minDist = 1.6;
+  for (let p of plots) {
+    let d = Math.abs(p.x - px);
+    if (d < minDist) { minDist = d; best = p; }
+  }
+  return best;
+}
+
+function startGame(planetKey) {
+  currentPlanet = PLANETS[planetKey];
+  document.getElementById('menu-screen').style.display = 'none';
+  document.getElementById('modal-overlay').style.display = 'none';
+  timeLeft = 300; power = 100; oxygen = 100; shield = 100; hunger = 100;
+  hazardActive = false; hazardTimer = 22;
+  player.x = 12.5; player.floor = 1; player.moveHoldTime = 0;
+  player.stamina = 100; player.exhausted = false; player.climbing = null;
+  player.selectedSeed = 0; player.foodBag = []; player.eatHoldTimer = 0;
+  plots.forEach(p => { p.seed = null; p.progress = 0; p.ready = false; });
+  floatingTexts = [];
+  gameState = 'playing';
+  lastTime = performance.now();
+  requestAnimationFrame(gameLoop);
+}
+
+function showNasaInfo() {
+  const modal = document.getElementById('modal-overlay');
+  document.getElementById('modal-content').innerHTML = `
+    <h2>NASA Mission Data & Controls</h2>
+    <p style="text-align:left; font-size:14px;">
+      <b>Controls:</b><br>
+      • <b>A / D:</b> Move Left / Right (2 m/s walk, 3 m/s after 1.5s)<br>
+      • <b>W / S:</b> Climb Ladder Up (1.0s) / Down (1.5s) at center<br>
+      • <b>E:</b> Recharge Terminals (1st Floor), Switch Seeds (2nd Floor Right), Plant Crop (2nd Floor Left)<br>
+      • <b>Q (Tap):</b> Harvest Crop | <b>Q (Hold 1.2s):</b> Eat Food<br><br>
+      <b>Survival Rules:</b><br>
+      • Survive <b>5 minutes (300s)</b>. Hunger drops in <b>45 seconds</b>.<br>
+      • If Stamina = 0%, you get exhausted. If Hunger &lt; 30%, Stamina stops regenerating!
+    </p>
+    <div class="nasa-fact-box">
+      <b>NASA References:</b> NASA Solar System Exploration, NASA Moon to Mars, Dragonfly Mission & Veggie Space Crop System.
+    </div>
+    <button class="primary-btn" onclick="closeModal()">Back to Menu</button>
+  `;
+  modal.style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+
+function endGame(win, reason) {
+  gameState = win ? 'victory' : 'gameover';
+  const modal = document.getElementById('modal-overlay');
+  document.getElementById('modal-content').innerHTML = `
+    <h2 style="color:${win ? '#4ade80' : '#f87171'}">${win ? 'MISSION ACCOMPLISHED!' : 'MISSION FAILED'}</h2>
+    <p>${reason}</p>
+    <div class="nasa-fact-box">${currentPlanet.fact}</div>
+    <button class="primary-btn" onclick="returnToMenu()">Return to Base Selection</button>
+  `;
+  modal.style.display = 'flex';
+}
+
+function returnToMenu() {
+  document.getElementById('modal-overlay').style.display = 'none';
+  document.getElementById('menu-screen').style.display = 'flex';
+  gameState = 'menu';
+}
+
+function update(dt) {
+  if (gameState !== 'playing') return;
+  timeLeft -= dt;
+  if (timeLeft <= 0) { timeLeft = 0; endGame(true, `You survived the full 5-minute shift on ${currentPlanet.name}!`); return; }
+
+  hazardTimer -= dt;
+  if (hazardTimer <= 0) {
+    hazardActive = !hazardActive;
+    hazardTimer = hazardActive ? 12 : 25;
+    if (hazardActive) addFloatingText(`WARNING: ${currentPlanet.hazardName}!`, player.x, player.floor, '#f87171');
+  }
+
+  const hazardMult = hazardActive ? 1.45 : 1.0;
+  power -= currentPlanet.powerDrain * (hazardActive && currentPlanet.name === 'MARS' ? 1.35 : 1.0) * dt;
+  oxygen -= currentPlanet.o2Drain * dt;
+  shield -= currentPlanet.shieldDrain * hazardMult * dt;
+  hunger -= (100 / 120) * dt; // 2 минуты (120 секунд)
+
+
+  if (power <= 0) return endGame(false, 'Habitat Power Core depleted! Life support shut down.');
+  if (oxygen <= 0) return endGame(false, 'Oxygen levels reached 0%! Always balance O2 scrubbers.');
+  if (shield <= 0) return endGame(false, `Habitat Shield failed against ${currentPlanet.name} environment!`);
+  if (hunger <= 0) return endGame(false, 'Astronaut starved! Grow and eat crops every 45 seconds.');
+
+  for (let p of plots) {
+    if (p.seed && !p.ready) {
+      p.progress += dt;
+      if (p.progress >= p.seed.growTime) { p.progress = p.seed.growTime; p.ready = true; }
+    }
+  }
+
+  if (keys['KeyQ'] && player.foodBag.length > 0 && !player.climbing) {
+    player.eatHoldTimer += dt;
+    if (player.eatHoldTimer >= 1.2) {
+      const meal = player.foodBag.shift();
+      hunger = Math.min(100, hunger + meal.hungerRestore);
+      player.eatHoldTimer = 0;
+      addFloatingText(`Ate ${meal.name} (+${meal.hungerRestore}% Food)`, player.x, player.floor, '#4ade80');
+    }
+  } else player.eatHoldTimer = 0;
+
+  if (player.climbing) {
+    player.climbing.progress += dt;
+    if (player.climbing.progress >= player.climbing.duration) {
+      player.floor = player.climbing.dir === 'up' ? 2 : 1;
+      player.climbing = null;
+    }
+    return;
+  }
+
+  let moveDir = 0;
+  if (keys['KeyA'] || keys['ArrowLeft']) moveDir -= 1;
+  if (keys['KeyD'] || keys['ArrowRight']) moveDir += 1;
+
+  if (moveDir !== 0) {
+    if (moveDir === player.dir) player.moveHoldTime += dt;
+    else { player.dir = moveDir; player.moveHoldTime = 0; }
+
+    if (player.moveHoldTime >= 1.5 && !player.exhausted && player.stamina > 0) {
+      player.speed = 3.0;
+      player.stamina -= 28 * dt;
+      if (player.stamina <= 0) {
+        player.stamina = 0;
+        player.exhausted = true;
+        addFloatingText('EXHAUSTED!', player.x, player.floor, '#f87171');
+      }
+    } else player.speed = 2.0;
+
+    player.x += moveDir * player.speed * dt;
+    if (player.floor === 1) player.x = Math.max(0.8, Math.min(DOME_METERS - 0.8, player.x));
+    else player.x = Math.max(2.0, Math.min(DOME_METERS - 2.0, player.x));
+  } else {
+    player.dir = 0; player.moveHoldTime = 0; player.speed = 2.0;
+  }
+
+  if (player.speed < 3.0 && hunger >= 30) {
+    player.stamina = Math.min(100, player.stamina + 20 * dt);
+    if (player.exhausted && player.stamina >= 40) player.exhausted = false;
+  }
+
+  for (let i = floatingTexts.length - 1; i >= 0; i--) {
+    floatingTexts[i].life -= dt;
+    if (floatingTexts[i].life <= 0) floatingTexts.splice(i, 1);
+  }
+}
+function draw() {
+  const W = canvas.width, H = canvas.height;
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.78);
+  skyGrad.addColorStop(0, currentPlanet.skyTop);
+  skyGrad.addColorStop(1, currentPlanet.skyBottom);
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  if (currentPlanet.stars) {
+    ctx.fillStyle = '#ffffff';
+    for (let i = 0; i < 70; i++) ctx.fillRect((i * 197) % W, (i * 89) % (H * 0.65), 2, 2);
+  }
+
+  const groundY = H * 0.78;
+  const groundGrad = ctx.createLinearGradient(0, groundY, 0, H);
+  groundGrad.addColorStop(0, currentPlanet.groundTop);
+  groundGrad.addColorStop(1, currentPlanet.groundBottom);
+  ctx.fillStyle = groundGrad;
+  ctx.fillRect(0, groundY, W, H - groundY);
+
+  const domeCenterX = W / 2, domeBaseY = groundY + 12;
+  const domeRadius = Math.min(W * 0.43, H * 0.66);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(domeCenterX, domeBaseY, domeRadius, Math.PI, 0, false);
+  ctx.closePath();
+  ctx.fillStyle = hazardActive ? 'rgba(65, 20, 30, 0.92)' : 'rgba(22, 33, 52, 0.92)';
+  ctx.fill();
+  ctx.lineWidth = 8;
+  ctx.strokeStyle = hazardActive ? '#ef4444' : '#64748b';
+  ctx.stroke();
+  ctx.clip();
+
+  const floor1Y = domeBaseY - 12, floor2Y = domeBaseY - domeRadius * 0.48;
+  const leftEdgeX = domeCenterX - domeRadius * 0.92, rightEdgeX = domeCenterX + domeRadius * 0.92;
+  const spanW = rightEdgeX - leftEdgeX;
+  const meterToX = (m) => leftEdgeX + (m / DOME_METERS) * spanW;
+
+  ctx.fillStyle = '#334155';
+  ctx.fillRect(domeCenterX - domeRadius, floor2Y, domeRadius * 2, 12);
+  ctx.fillStyle = '#475569';
+  ctx.fillRect(meterToX(11.0), floor2Y - domeRadius * 0.55, 10, domeRadius * 0.55);
+  ctx.fillRect(meterToX(14.0), floor2Y - domeRadius * 0.55, 10, domeRadius * 0.55);
+
+  const ladX = meterToX(LADDER_X);
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(ladX - 16, floor1Y); ctx.lineTo(ladX - 16, floor2Y);
+  ctx.moveTo(ladX + 16, floor1Y); ctx.lineTo(ladX + 16, floor2Y);
+  ctx.stroke();
+  for (let ry = floor2Y + 14; ry < floor1Y; ry += 16) {
+    ctx.beginPath(); ctx.moveTo(ladX - 16, ry); ctx.lineTo(ladX + 16, ry); ctx.stroke();
+  }
+
+  const leftTermX = meterToX(2.0);
+  ctx.fillStyle = '#0f172a'; ctx.fillRect(leftTermX - 28, floor1Y - 65, 56, 65);
+  ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.strokeRect(leftTermX - 28, floor1Y - 65, 56, 65);
+  ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('POWER / O2', leftTermX, floor1Y - 72); ctx.fillText('[E]', leftTermX, floor1Y - 30);
+
+  const rightTermX = meterToX(23.0);
+  ctx.fillStyle = '#0f172a'; ctx.fillRect(rightTermX - 28, floor1Y - 65, 56, 65);
+  ctx.strokeStyle = '#c084fc'; ctx.strokeRect(rightTermX - 28, floor1Y - 65, 56, 65);
+  ctx.fillStyle = '#c084fc';
+  ctx.fillText('SHIELD', rightTermX, floor1Y - 72); ctx.fillText('[E]', rightTermX, floor1Y - 30);
+
+  ctx.fillStyle = '#86efac'; ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('HYDROPONIC GREENHOUSE', meterToX(6.0), floor2Y - 105);
+
+  for (let p of plots) {
+    let px = meterToX(p.x);
+    ctx.fillStyle = '#1e293b'; ctx.fillRect(px - 24, floor2Y - 22, 48, 22);
+    ctx.strokeStyle = '#4ade80'; ctx.strokeRect(px - 24, floor2Y - 22, 48, 22);
+    if (p.seed) {
+      let plantH = 10 + (p.progress / p.seed.growTime) * 28;
+      ctx.fillStyle = p.ready ? '#fde047' : p.seed.color;
+      ctx.fillRect(px - 8, floor2Y - 22 - plantH, 16, plantH);
+      ctx.fillStyle = '#fff'; ctx.font = '10px sans-serif';
+      ctx.fillText(p.ready ? 'READY [Q]' : `${Math.ceil(p.seed.growTime - p.progress)}s`, px, floor2Y - 26 - plantH);
+    } else {
+      ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif';
+      ctx.fillText('Empty [E]', px, floor2Y - 28);
+    }
+  }
+
+  const seedBoxX = meterToX(19.0);
+  ctx.fillStyle = '#fde047'; ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('SEED STORAGE', seedBoxX, floor2Y - 105);
+  ctx.fillStyle = '#1e293b'; ctx.fillRect(seedBoxX - 42, floor2Y - 52, 84, 52);
+  ctx.strokeStyle = '#facc15'; ctx.strokeRect(seedBoxX - 42, floor2Y - 52, 84, 52);
+  const curSeed = SEEDS[player.selectedSeed];
+  ctx.fillStyle = curSeed.color; ctx.font = 'bold 11px sans-serif';
+  ctx.fillText(curSeed.name, seedBoxX, floor2Y - 30);
+  ctx.fillStyle = '#fff'; ctx.font = '10px sans-serif';
+  ctx.fillText(`Grow: ${curSeed.growTime}s | Switch [E]`, seedBoxX, floor2Y - 14);
+
+  let px = meterToX(player.x);
+  let py = player.floor === 1 ? floor1Y : floor2Y;
+  if (player.climbing) {
+    let t = player.climbing.progress / player.climbing.duration;
+    py = player.climbing.dir === 'up' ? floor1Y - (floor1Y - floor2Y) * t : floor2Y + (floor1Y - floor2Y) * t;
+  }
+
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(px - 11, py - 42, 22, 30);
+  ctx.fillStyle = '#cbd5e1'; ctx.fillRect(px - 9, py - 12, 7, 12); ctx.fillRect(px + 2, py - 12, 7, 12);
+  ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(px, py - 50, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#0284c7'; ctx.fillRect(px - 6, py - 54, 12, 7);
+
+  if (player.eatHoldTimer > 0) {
+    ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(px, py - 72, 10, -Math.PI / 2, -Math.PI / 2 + (player.eatHoldTimer / 1.2) * Math.PI * 2);
+    ctx.stroke();
+  }
+
+  for (let ft of floatingTexts) {
+    let fx = meterToX(ft.xMeters);
+    let fy = (ft.floor === 1 ? floor1Y : floor2Y) - 75 - (1.5 - ft.life) * 25;
+    ctx.fillStyle = ft.color; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(ft.text, fx, fy);
+  }
+  ctx.restore();
+  drawHUD(W, H);
+}
+
+function drawBar(x, y, w, h, val, color, label) {
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)'; ctx.fillRect(x, y, w, h);
+  ctx.fillStyle = color; ctx.fillRect(x + 2, y + 2, (w - 4) * Math.max(0, Math.min(1, val / 100)), h - 4);
+  ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5; ctx.strokeRect(x, y, w, h);
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(`${label}: ${Math.ceil(val)}%`, x + 8, y + h - 6);
+}
+function drawHUD(W, H) {
+  drawBar(20, 20, 200, 22, power, '#38bdf8', 'POWER');
+  drawBar(20, 48, 200, 22, oxygen, '#4ade80', 'OXYGEN');
+  drawBar(20, 76, 200, 22, shield, '#c084fc', 'SHIELD');
+  drawBar(20, 104, 200, 22, hunger, hunger < 30 ? '#ef4444' : '#facc15', 'HUNGER (2m)');
+  drawBar(20, 132, 200, 18, player.stamina, player.exhausted ? '#f87171' : '#2dd4bf', player.exhausted ? 'EXHAUSTED' : 'STAMINA');
+
+  const mins = Math.floor(timeLeft / 60);
+  const secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)'; ctx.fillRect(W / 2 - 95, 18, 190, 46);
+  ctx.strokeStyle = hazardActive ? '#ef4444' : '#38bdf8'; ctx.lineWidth = 2; ctx.strokeRect(W / 2 - 95, 18, 190, 46);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 22px monospace'; ctx.textAlign = 'center';
+  ctx.fillText(`${mins}:${secs}`, W / 2, 48);
+
+  if (hazardActive) {
+    ctx.fillStyle = '#ef4444'; ctx.font = 'bold 14px sans-serif';
+    ctx.fillText(`ALERT: ${currentPlanet.hazardName}`, W / 2, 82);
+  }
+
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)'; ctx.fillRect(W - 250, 18, 230, 115);
+  ctx.strokeStyle = '#334155'; ctx.strokeRect(W - 250, 18, 230, 115);
+  ctx.fillStyle = '#7dd3fc'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(`NASA TELEMETRY: ${currentPlanet.name}`, W - 238, 38);
+  ctx.fillStyle = '#cbd5e1'; ctx.font = '11px sans-serif';
+  ctx.fillText(`Gravity: ${currentPlanet.gravity} | Temp: ${currentPlanet.temp}`, W - 238, 56);
+  ctx.fillText(`Atmo: ${currentPlanet.atmo}`, W - 238, 72);
+
+  ctx.fillStyle = '#fde047'; ctx.font = 'bold 12px sans-serif';
+  const bagText = player.foodBag.length > 0 ? `${player.foodBag[0].name} (+${player.foodBag.length - 1})` : 'Empty';
+  ctx.fillText(`Food Bag [Hold Q]: ${bagText}`, W - 238, 98);
+  ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif';
+  ctx.fillText(`Speed: ${player.speed.toFixed(1)} m/s | Pos: ${player.x.toFixed(1)}m`, W - 238, 118);
+}
+
+
+function gameLoop(timestamp) {
+  if (gameState !== 'playing') return;
+  const dt = Math.min(0.05, (timestamp - lastTime) / 1000);
+  lastTime = timestamp;
+  update(dt);
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+</script>
+</body>
+</html>
