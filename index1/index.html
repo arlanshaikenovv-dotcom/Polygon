@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Health — Помощник здоровья</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ -->
+  <div id="screen-menu" class="screen active">
+    <div class="menu-title">SMART HEALTH — ПОМОЩНИК ЗДОРОВЬЯ</div>
+    <button class="menu-btn" onclick="openScreen('screen-health')">Рекомендации для здоровья</button>
+    <button class="menu-btn" onclick="openScreen('screen-aid-select')">Первая помощь</button>
+    <button class="menu-btn" onclick="openScreen('screen-food')">Анализ продуктов питания</button>
+  </div>
+
+  <!-- ЭКРАН 2: РЕКОМЕНДАЦИИ ДЛЯ ЗДОРОВЬЯ -->
+  <div id="screen-health" class="screen">
+    <button class="back-btn" onclick="openScreen('screen-menu')">← В меню</button>
+    <div class="health-inputs">
+      <div class="input-group">
+        <label>Рост (см)</label>
+        <input type="number" id="inp-height" placeholder="Например: 172" value="170">
+      </div>
+      <div class="input-group">
+        <label>Вес (кг)</label>
+        <input type="number" id="inp-weight" placeholder="Например: 60" value="60">
+      </div>
+      <div class="input-group">
+        <label>Возраст (лет)</label>
+        <input type="number" id="inp-age" placeholder="Например: 15" value="15">
+      </div>
+      <div class="input-group">
+        <label>Сон в сутки (часов)</label>
+        <input type="number" id="inp-sleep" placeholder="Например: 7" value="7">
+      </div>
+      <div class="input-group">
+        <label>Время за экраном (часов в день)</label>
+        <input type="number" id="inp-screen" placeholder="Например: 5" value="5">
+      </div>
+    </div>
+
+    <div class="health-right">
+      <button class="submit-blue-btn" onclick="calculateHealth()">Отправить и рассчитать</button>
+      <div class="health-output" id="health-result-box">
+        <h3>Персональный анализ и рекомендации</h3>
+        <p>Заполни свои параметры слева и нажми синюю кнопку «Отправить и рассчитать», чтобы получить математический расчёт ИМТ, нормы воды, эргономики рабочего места и режима дня.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 3: ВЫБОР СИТУАЦИИ (ПЕРВАЯ ПОМОЩЬ) -->
+  <div id="screen-aid-select" class="screen">
+    <button class="back-btn" onclick="openScreen('screen-menu')">← В меню</button>
+    <div class="aid-list">
+      <button class="aid-case-btn" onclick="startAidGame('cut')">1. Глубокий порез</button>
+      <button class="aid-case-btn" onclick="startAidGame('choke')">2. Подавившийся человек</button>
+      <button class="aid-case-btn" onclick="startAidGame('faint')">3. Обморок в классе</button>
+      <button class="aid-case-btn" onclick="startAidGame('burn')">4. Термический ожог</button>
+      <button class="aid-case-btn" onclick="startAidGame('nose')">5. Носовое кровотечение</button>
+      <button class="aid-case-btn" onclick="startAidGame('sprain')">6. Растяжение / вывих</button>
+    </div>
+
+    <div class="med-cross-box">
+      <div class="med-cross-v"></div>
+      <div class="med-cross-h"></div>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 4: МИНИ-ИГРА WASD + E -->
+  <div id="screen-aid-game" class="screen">
+    <button class="back-btn" onclick="openScreen('screen-aid-select')">← К выбору</button>
+    <div class="game-title-banner" id="game-case-title">Ситуация</div>
+    <div class="game-hud">Управление: <b>W A S D</b> — движение | <b>E</b> — взять / положить карточку</div>
+    
+    <div id="game-slots-container"></div>
+    <div id="game-cards-container"></div>
+    <div id="player-orb"></div>
+
+    <button id="check-game-btn" onclick="finishAidGame()">Проверить порядок</button>
+  </div>
+
+  <!-- ЭКРАН 5: ОБЪЯСНЕНИЕ ПОСЛЕ ИГРЫ -->
+  <div id="screen-aid-result" class="screen">
+    <div class="result-gray-box" id="aid-explanation-box"></div>
+    <button class="result-green-btn" onclick="openScreen('screen-menu')">Вернуться в главное меню</button>
+  </div>
+
+  <!-- ЭКРАН 6: АНАЛИЗ ПРОДУКТОВ ПИТАНИЯ -->
+  <div id="screen-food" class="screen">
+    <button class="back-btn" onclick="openScreen('screen-menu')">← В меню</button>
+    <div class="food-grid" id="food-grid"></div>
+    <div class="food-info-panel" id="food-info-panel">
+      <div>
+        <h2 id="food-title">Выбери продукт слева</h2>
+        <div class="food-metrics" id="food-metrics"></div>
+        <p class="food-desc" id="food-desc">Нажми на любую пиксельную иконку продукта (чипсы, кола, энергетик и др.), чтобы увидеть химический состав, количество скрытого сахара и влияние на организм школьника.</p>
+      </div>
+      <div class="food-footer-note">
+        Норма ВОЗ для подростка: не более 25 г (5 чайных ложек) добавленного сахара и не более 5 г соли в сутки.
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

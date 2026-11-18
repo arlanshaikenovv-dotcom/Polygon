@@ -164,7 +164,8 @@
   <div class="stars-bg"></div>
   <div class="menu-box">
     <div class="menu-title">Junior Astronaut<br>Mission Trainer</div>
-    <div class="menu-subtitle">Survive a 5-minute shift inside the planetary habitat dome</div>
+    <div class="menu-subtitle"><button class="nasa-btn" id="lang-btn" onclick="toggleLanguage()" style="margin-top:0;">Language: EN / Переключить на RU</button>
+ Survive a 5-minute shift inside the planetary habitat dome</div>
     <button class="planet-btn" onclick="startGame('moon')">
       <span>Play Moon</span>
       <span class="tag">High Radiation</span>
@@ -195,6 +196,44 @@ function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
+
+let curLang = 'en';
+
+const LANG = {
+  en: {
+    title: 'Junior Astronaut<br>Mission Trainer',
+    subtitle: 'Survive a 5-minute shift inside the planetary habitat dome',
+    playMoon: 'Play Moon', tagMoon: 'High Radiation',
+    playMars: 'Play Mars', tagMars: 'Dust Storms',
+    playTitan: 'Play Titan', tagTitan: '-179°C Cryo Cold',
+    nasaBtn: 'NASA Planetary Data & Controls',
+    langBtn: 'Language: EN (Switch to RU)',
+    power: 'POWER', oxygen: 'OXYGEN', shield: 'SHIELD',
+    hunger: 'HUNGER (2m)', stamina: 'STAMINA', exhausted: 'EXHAUSTED',
+    greenhouse: 't.greenhouse', seedStorage: 't.seedStorage',
+    empty: 'Empty [E]', ready: 't.ready',
+    foodBag: 'Food Bag [Hold Q]', bagEmpty: 't.empty',
+    winTitle: 'MISSION ACCOMPLISHED!', loseTitle: 'MISSION FAILED',
+    returnBtn: 'Return to Base Selection'
+  },
+  ru: {
+    title: 'Тренажёр Юного Астронавта',
+    subtitle: 'Продержись 5-минутную смену внутри планетарного купола',
+    playMoon: 'Играть: Луна', tagMoon: 'Высокая радиация',
+    playMars: 'Играть: Марс', tagMars: 'Пылевые бури',
+    playTitan: 'Играть: Титан', tagTitan: 'Крио-холод -179°C',
+    nasaBtn: 'Данные NASA и Управление',
+    langBtn: 'Язык: RU (Переключить на EN)',
+    power: 'ЭНЕРГИЯ', oxygen: 'КИСЛОРОД', shield: 'ЩИТ',
+    hunger: 'ГОЛОД (2м)', stamina: 'СТАМИНА', exhausted: 'УСТАЛОСТЬ',
+    greenhouse: 'ГИДРОПОННАЯ ТЕПЛИЦА', seedStorage: 'СКЛАД СЕМЯН',
+    empty: 'Пусто [E]', ready: 'ГОТОВО [Q]',
+    foodBag: 'Сумка [Зажать Q]', bagEmpty: 'Пусто',
+    winTitle: 'МИССИЯ ВЫПОЛНЕНА!', loseTitle: 'МИССИЯ ПРОВАЛЕНА',
+    returnBtn: 'Вернуться к выбору планеты'
+  }
+};
+
 window.addEventListener('resize', resize);
 resize();
 
@@ -237,13 +276,17 @@ const SEEDS = [
   { id: 2, name: 'Martian Soybeans', growTime: 15.0, hungerRestore: 40, color: '#fb923c' }
 ];
 
-
 let gameState = 'menu';
 let currentPlanet = PLANETS.moon;
 let timeLeft = 300;
 let lastTime = 0;
 let power = 100, oxygen = 100, shield = 100, hunger = 100;
-let hazardActive = false, hazardTimer = 25;
+
+let hazardActive = false;
+let hazardCheckTimer = 15.0; // Каждые 15 секунд подбрасываем монетку
+let hazardDuration = 0;
+let requiredShield = 0;      // Случайный порог щита от 15% до 50%
+
 const DOME_METERS = 25, LADDER_X = 12.5;
 
 const player = {
@@ -359,7 +402,7 @@ function startGame(planetKey) {
   document.getElementById('menu-screen').style.display = 'none';
   document.getElementById('modal-overlay').style.display = 'none';
   timeLeft = 300; power = 100; oxygen = 100; shield = 100; hunger = 100;
-  hazardActive = false; hazardTimer = 22;
+  hazardActive = false; hazardCheckTimer = 15.0; hazardDuration = 0; requiredShield = 0;
   player.x = 12.5; player.floor = 1; player.moveHoldTime = 0;
   player.stamina = 100; player.exhausted = false; player.climbing = null;
   player.selectedSeed = 0; player.foodBag = []; player.eatHoldTimer = 0;
@@ -369,6 +412,22 @@ function startGame(planetKey) {
   lastTime = performance.now();
   requestAnimationFrame(gameLoop);
 }
+
+
+function toggleLanguage() {
+  curLang = curLang === 'en' ? 'ru' : 'en';
+  const t = LANG[curLang];
+  document.querySelector('.menu-title').innerHTML = t.title;
+  document.querySelector('.menu-subtitle').textContent = t.subtitle;
+  document.getElementById('lang-btn').textContent = t.langBtn;
+  document.querySelector('.nasa-btn:last-child').textContent = t.nasaBtn;
+
+  const btns = document.querySelectorAll('.planet-btn');
+  btns[0].innerHTML = `<span>${t.playMoon}</span><span class="tag">${t.tagMoon}</span>`;
+  btns[1].innerHTML = `<span>${t.playMars}</span><span class="tag">${t.tagMars}</span>`;
+  btns[2].innerHTML = `<span>${t.playTitan}</span><span class="tag">${t.tagTitan}</span>`;
+}
+
 
 function showNasaInfo() {
   const modal = document.getElementById('modal-overlay');
@@ -415,44 +474,82 @@ function returnToMenu() {
 function update(dt) {
   if (gameState !== 'playing') return;
   timeLeft -= dt;
-  if (timeLeft <= 0) { timeLeft = 0; endGame(true, `You survived the full 5-minute shift on ${currentPlanet.name}!`); return; }
-
-  hazardTimer -= dt;
-  if (hazardTimer <= 0) {
-    hazardActive = !hazardActive;
-    hazardTimer = hazardActive ? 12 : 25;
-    if (hazardActive) addFloatingText(`WARNING: ${currentPlanet.hazardName}!`, player.x, player.floor, '#f87171');
+  if (timeLeft <= 0) {
+    timeLeft = 0;
+    endGame(true, `You survived the full 5-minute shift on ${currentPlanet.name}!`);
+    return;
   }
 
-  const hazardMult = hazardActive ? 1.45 : 1.0;
-  power -= currentPlanet.powerDrain * (hazardActive && currentPlanet.name === 'MARS' ? 1.35 : 1.0) * dt;
-  oxygen -= currentPlanet.o2Drain * dt;
-  shield -= currentPlanet.shieldDrain * hazardMult * dt;
-  hunger -= (100 / 120) * dt; // 2 минуты (120 секунд)
+  // Монетка каждые 15 секунд (50% буря / 50% чилл) + удар как Фокси
+  if (!hazardActive) {
+    hazardCheckTimer -= dt;
+    if (hazardCheckTimer <= 0) {
+      hazardCheckTimer = 15.0;
+      if (Math.random() < 0.5) {
+        hazardActive = true;
+        hazardDuration = 10.0; // 10 секунд чтобы успеть зарядить щит до нужного %
+        requiredShield = Math.floor(15 + Math.random() * 36); // Рандом от 15 до 50
+        addFloatingText(`STORM! NEED SHIELD >= ${requiredShield}%!`, player.x, player.floor, '#f87171');
+      } else {
+        addFloatingText('Coin flip: Calm weather (15s)', player.x, player.floor, '#86efac');
+      }
+    }
+  } else {
+    hazardDuration -= dt;
+    if (hazardDuration <= 0) {
+      // Момент удара шторма!
+      if (shield >= requiredShield) {
+        shield = Math.max(0, shield - requiredShield * 0.5);
+        addFloatingText(`SHIELD HELD! (-${Math.round(requiredShield * 0.5)}% Shield)`, player.x, player.floor, '#4ade80');
+      } else {
+        power = Math.max(0, power - 20); // Как Фокси забирает 20% энергии!
+        shield = 0;
+        addFloatingText('BREACH! -20% POWER!', player.x, player.floor, '#ef4444');
+      }
+      hazardActive = false;
+      requiredShield = 0;
+      hazardCheckTimer = 15.0;
+    }
+  }
 
+  // Базовый расход ресурсов
+  power -= currentPlanet.powerDrain * dt;
+  oxygen -= currentPlanet.o2Drain * dt;
+  shield -= currentPlanet.shieldDrain * dt;
+  hunger -= (100 / 120) * dt;
 
   if (power <= 0) return endGame(false, 'Habitat Power Core depleted! Life support shut down.');
   if (oxygen <= 0) return endGame(false, 'Oxygen levels reached 0%! Always balance O2 scrubbers.');
-  if (shield <= 0) return endGame(false, `Habitat Shield failed against ${currentPlanet.name} environment!`);
-  if (hunger <= 0) return endGame(false, 'Astronaut starved! Grow and eat crops every 45 seconds.');
+  if (hunger <= 0) return endGame(false, 'Astronaut starved! Grow and eat crops every 2 minutes.');
 
+  // Рост растений
   for (let p of plots) {
     if (p.seed && !p.ready) {
       p.progress += dt;
-      if (p.progress >= p.seed.growTime) { p.progress = p.seed.growTime; p.ready = true; }
+      if (p.progress >= p.seed.growTime) {
+        p.progress = p.seed.growTime;
+        p.ready = true;
+      }
     }
   }
 
+  // Поедание еды где угодно (удерживать Q 10 секунд, двигаться нельзя)
+  let isEating = false;
   if (keys['KeyQ'] && player.foodBag.length > 0 && !player.climbing) {
+    isEating = true;
     player.eatHoldTimer += dt;
-    if (player.eatHoldTimer >= 1.2) {
+  if (player.eatHoldTimer >= 5.0) {
       const meal = player.foodBag.shift();
       hunger = Math.min(100, hunger + meal.hungerRestore);
       player.eatHoldTimer = 0;
+      isEating = false;
       addFloatingText(`Ate ${meal.name} (+${meal.hungerRestore}% Food)`, player.x, player.floor, '#4ade80');
     }
-  } else player.eatHoldTimer = 0;
+  } else {
+    player.eatHoldTimer = 0;
+  }
 
+  // Подъём/спуск по лестнице
   if (player.climbing) {
     player.climbing.progress += dt;
     if (player.climbing.progress >= player.climbing.duration) {
@@ -462,9 +559,12 @@ function update(dt) {
     return;
   }
 
+  // Движение (заблокировано, пока персонаж ест!)
   let moveDir = 0;
-  if (keys['KeyA'] || keys['ArrowLeft']) moveDir -= 1;
-  if (keys['KeyD'] || keys['ArrowRight']) moveDir += 1;
+  if (!isEating) {
+    if (keys['KeyA'] || keys['ArrowLeft']) moveDir -= 1;
+    if (keys['KeyD'] || keys['ArrowRight']) moveDir += 1;
+  }
 
   if (moveDir !== 0) {
     if (moveDir === player.dir) player.moveHoldTime += dt;
@@ -497,6 +597,7 @@ function update(dt) {
     if (floatingTexts[i].life <= 0) floatingTexts.splice(i, 1);
   }
 }
+
 function draw() {
   const W = canvas.width, H = canvas.height;
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.78);
@@ -609,9 +710,12 @@ function draw() {
   if (player.eatHoldTimer > 0) {
     ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.arc(px, py - 72, 10, -Math.PI / 2, -Math.PI / 2 + (player.eatHoldTimer / 1.2) * Math.PI * 2);
+    ctx.arc(px, py - 74, 11, -Math.PI / 2, -Math.PI / 2 + (player.eatHoldTimer / 10.0) * Math.PI * 2);
     ctx.stroke();
+    ctx.fillStyle = '#fde047'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(`Eating: ${player.eatHoldTimer.toFixed(1)}s / 10s`, px, py - 90);
   }
+
 
   for (let ft of floatingTexts) {
     let fx = meterToX(ft.xMeters);
@@ -631,11 +735,11 @@ function drawBar(x, y, w, h, val, color, label) {
   ctx.fillText(`${label}: ${Math.ceil(val)}%`, x + 8, y + h - 6);
 }
 function drawHUD(W, H) {
-  drawBar(20, 20, 200, 22, power, '#38bdf8', 'POWER');
-  drawBar(20, 48, 200, 22, oxygen, '#4ade80', 'OXYGEN');
-  drawBar(20, 76, 200, 22, shield, '#c084fc', 'SHIELD');
-  drawBar(20, 104, 200, 22, hunger, hunger < 30 ? '#ef4444' : '#facc15', 'HUNGER (2m)');
-  drawBar(20, 132, 200, 18, player.stamina, player.exhausted ? '#f87171' : '#2dd4bf', player.exhausted ? 'EXHAUSTED' : 'STAMINA');
+  drawBar(20, 20, 200, 22, power, '#38bdf8', 't.power');
+  drawBar(20, 48, 200, 22, oxygen, '#4ade80', 't.oxygen');
+  drawBar(20, 76, 200, 22, shield, '#c084fc', 't.shield');
+  drawBar(20, 104, 200, 22, hunger, hunger < 30 ? '#ef4444' : '#facc15', 't.hunger');
+  drawBar(20, 132, 200, 18, player.stamina, player.exhausted ? '#f87171' : '#2dd4bf', player.exhausted ? 't.exhausted' : 't.stamina');
 
   const mins = Math.floor(timeLeft / 60);
   const secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
@@ -645,9 +749,11 @@ function drawHUD(W, H) {
   ctx.fillText(`${mins}:${secs}`, W / 2, 48);
 
   if (hazardActive) {
-    ctx.fillStyle = '#ef4444'; ctx.font = 'bold 14px sans-serif';
-    ctx.fillText(`ALERT: ${currentPlanet.hazardName}`, W / 2, 82);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 15px sans-serif';
+    ctx.fillText(`ALERT: ${currentPlanet.hazardName} (${hazardDuration.toFixed(1)}s) — NEED SHIELD >= ${requiredShield}%!`, W / 2, 84);
   }
+
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.85)'; ctx.fillRect(W - 250, 18, 230, 115);
   ctx.strokeStyle = '#334155'; ctx.strokeRect(W - 250, 18, 230, 115);
